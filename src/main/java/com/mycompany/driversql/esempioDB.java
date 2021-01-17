@@ -18,18 +18,10 @@ public class esempioDB {
      */
  public static void main(String[] args){
         persona p = new persona();
-        String DRIVER = "com.mysql.cj.jdbc.Driver";
-        try
-        {
-            Class.forName(DRIVER);
-        }
-        catch(ClassNotFoundException e){
-            System.out.println("Driver non trovato");
-            System.exit(1);
-        }
+        System.setProperty("jdbc.drivers", "sun.jdbc.odbc.JdbcOdbcDriver");
         
         String URL_miodb = "jdbc:mysql://localhost:3306/db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        String query = "SELECT nome, cognome FROM bd";
+        String query = "SELECT nome, cognome FROM bd;";
         Connection connessione = null;
      System.out.println("Connessione con: " + URL_miodb);
      try{
@@ -43,12 +35,11 @@ public class esempioDB {
          Statement state = connessione.createStatement();
          ResultSet resultSet = state.executeQuery(query);
          System.out.println(resultSet);
-         while (resultSet.next())
-            p.nome = resultSet.getString(1);
-            p.cognome = resultSet.getString(2);
-         
-            System.out.println("nome: " + p.nome);
-            System.out.println("Cognome: " + p.cognome);
+       while (resultSet.next()) {
+             for (int i = 1; i <= 2; i++){
+                 System.out.println(resultSet.getString(i));
+             }
+         }
      }catch(Exception e){
          System.out.println("Errore nella connessione: " + e);
          System.exit(1);
@@ -64,7 +55,4 @@ public class esempioDB {
      }
     
     }
-    
-    
-    
 }
